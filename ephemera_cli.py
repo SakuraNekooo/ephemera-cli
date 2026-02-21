@@ -13,7 +13,7 @@ class EphemeraClient:
 
     def _request(self, method: str, endpoint: str, data: Optional[Dict] = None) -> Dict[str, Any]:
         url = f"{self.base_url}{endpoint}"
-        headers = {"Authorization": f"Bearer {self.token}", "Content-Type": "application/json"}
+        headers = {"Authorization": f"Bearer {self.token}", "Content-Type": "application/json", "User-Agent": "EphemeraCLI/1.0"}
         req_data = json.dumps(data).encode() if data else None
         request = urllib.request.Request(url, data=req_data, headers=headers, method=method)
         try:
