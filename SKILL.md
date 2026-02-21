@@ -1,181 +1,79 @@
 # Ephemera CLI
 
-A command-line interface for Alice EVO Cloud API.
+Alice EVO Cloud API 命令行工具。
 
-## Installation
+## 安装
+
+### 从 PyPI 安装
 
 ```bash
+pip install ephemera-cli
+```
+
+### 从 GitHub 安装
+
+```bash
+pip install git+https://github.com/SakuraNekooo/ephemera-cli.git
+```
+
+### 从源码安装
+
+```bash
+git clone https://github.com/SakuraNekooo/ephemera-cli.git
+cd ephemera-cli
 pip install -e .
 ```
 
-## Configuration
-
-### Environment Variables
-
-```bashexport EPHEMERA_ACCESS_KEY="access_key"
-export EPHEMERA_SECRET_KEY="secret_key"
-```
-
-### Credentials File
-
-Location: `~/.ephemera/credentials`
-
-```
-access_key=<key>
-secret_key=<secret>
-```
-
-## Commands
-
-### Account
-
-```
-ephemera profile
-ephemera ssh-keys
-ephemera permissions
-```
-
-### Instances
-
-```
-ephemera plans
-ephemera os-images <plan_id>
-ephemera list
-ephemera state <instance_id>
-ephemera delete <instance_id>
-```
-
-### Deploy
-
-```
-ephemera deploy --product-id <id> --os-id <id> --time <hours> [--ssh-key-id <id>] [--boot-script <base64>]
-```
-
-### Power Operations
-
-```
-ephemera power <instance_id> <action>
-```
-
-Actions: boot, shutdown, restart, poweroff
-
-### Rebuild
-
-```
-ephemera rebuild <instance_id> --os-id <id> [--ssh-key-id <id>] [--boot-script <base64>]
-```
-
-### Renew
-
-```
-ephemera renew <instance_id> --time <hours>
-```
-
-### Remote Execution
-
-```
-ephemera exec <instance_id> "<command>"
-ephemera exec-result <instance_id> <uid>
-```
-
-## Output Format
+## 配置
 
 ```bash
-ephemera profile           # JSON output (default)
-ephemera -o text profile   # Text output
+export EPHEMERA_ACCESS_KEY="your_access_key"
+export EPHEMERA_SECRET_KEY="your_secret_key"
 ```
 
-## API Endpoints
-
-| Method | Endpoint |
-|--------|--------|
-| GET | /cli/v1/account/profile |
-| GET | /cli/v1/account/ssh-keys |
-| GET | /cli/v1/evo/permissions |
-| GET | /cli/v1/evo/plans |
-| GET | /cli/v1/evo/plans/{id}/os-images |
-| POST | /cli/v1/evo/instances/deploy |
-| GET | /cli/v1/evo/instances |
-| DELETE | /cli/v1/evo/instances/{id} |
-| GET | /cli/v1/evo/instances/{id}/state |
-| POST | /cli/v1/evo/instances/{id}/power |
-| POST | /cli/v1/evo/instances/{id}/rebuild |
-| POST | /cli/v1/evo/instances/{id}/renewals |
-| POST | /cli/v1/evo/instances/{id}/exec |
-| GET | /cli/v1/evo/instances/{id}/exec/{uid} |
-
-## Base URL
-
-https://app.alice.ws
-
-#{ Authentication
-
-Method: Bearer Token
-
-Header: `Authorization: Bearer <access_key>:<secret_key>`
-
-Required headers: Authorization, Content-Type, User-Agent
-
-## Request Formats
-
-### Deploy Instance
-
-```json
-{"product_id": 38, "os_id": 1, "time": 24, "ssh_key_id": null, "boot_script": null}
-```
-
-### Power Operation
-
-```'action": "shutdown'```
-
-Actions: boot, shutdown, restart, poweroff
-
-### Renew Instance
+或创建配置文件 `~/.ephemera/credentials`:
 
 ```
-{"time": 12}
+access_key=your_access_key
+secret_key=your_secret_key
 ```
 
-### Execute Command
+## 使用
 
+### 账户
+
+```bash
+ephemera profile        # 查看账户信息
+ephemera ssh-keys       # 查看SSH密钥
+ephemera permissions    # 查看权限
 ```
-{"command": "<base64_encoded_command>"}
+
+### 实例管理
+
+```bash
+ephemera plans                      # 查看可用计划
+ephemera os-images 38               # 查看计划的可用系统
+ephemera list                       # 列出实例
+ephemera state <id>                 # 查看实例状态
+ephemera deploy --product-id 38 --os-id 1 --time 24  # 部署实例
+ephemera power <id> shutdown        # 关机
+ephemera power <id> boot            # 开机
+ephemera renew <id> --time 12       # 续费
+ephemera rebuild <id> --os-id 1     # 重装系统
+ephemera delete <id>                # 删除实例
 ```
 
-## Response Format
+### 远程执行
 
-```{"code": 200, "data": {}, "message": ""}```
+```bash
+ephemera exec <id> "uptime"         # 执行命令
+ephemera exec-result <id> <uid>     # 查看结果
+```
 
-#{ Plans
+## 版本
 
-| ID | Name | CPU | RAM | Disk |
-|----|------|-----|-----|------|
-| 38 | SLC.Evo.Micro | 2 | 4GB | 60GB |
-| 39 | SLC.Evo.Standard | 4 | 8GB | 120GB |
-| 40 | SLC.Evo.Pro | 8 | 16GB | 200GB |
-| 41 | SLC.Evo.Ultra | 16 | 32GB | 300GB |
-| 42 | SLC.Evo.GPU-Ultra | 8 | 32GB | 1TB |
+当前版本: 1.1.0
 
-#{ OS Images
-~| ID | Name |
-|----|-----|
-| 1 | Debian 12 (Bookworm) Minimal |
-| 2 | Debian 11 (Bullseye) Minimal |
-| 3 | Ubuntu Server 20.04 LTS Minimal |
-| 4 | Ubuntu Server 22.04 LTS Minimal |
-| 5 | CentOS 7 Minimal |
-| 6 | CentOS Stream 9 Minimal |
-| 7 | AlmaLinux 8 Minimal |
-| 8 | AlmaLinux 9 Latest |
-| 9 | Alpine Linux 3.19 |
-| 10 | Debian 12 DevKit |
-| 13 | Debian 13 (Trixie) Minimal |
-
-## Requirements
-
-- Python 3.7+
-- No external dependencies
-
-## Repository
+## 仓库
 
 https://github.com/SakuraNekooo/ephemera-cli
