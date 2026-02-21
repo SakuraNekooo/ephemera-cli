@@ -4,12 +4,6 @@ Alice EVO Cloud API 命令行工具。
 
 ## 安装
 
-### 从 PyPI 安装
-
-```bash
-pip install ephemera-cli
-```
-
 ### 从 GitHub 安装
 
 ```bash
