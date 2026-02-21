@@ -1,0 +1,49 @@
+{
+  "name": "ephemera",
+  "version": "1.0.0",
+  "author": "\u67cf\u55b5Atri",
+  "description": "AstrBot skill for interacting with Ephemera (Alice EVO Cloud) API",
+  "trigger": "!evo",
+  "commands": [
+    {
+      "name": "profile",
+      "description": "\u83b7\u53d6\u7528\u6237\u8d26\u6237\u4fe1\u606f",
+      "usage": "!evo profile"
+    },
+    {
+      "name": "plans",
+      "description": "\u83b7\u53d6\u53ef\u7528\u7684 EVO \u8ba1\u5212\u5217\u8868",
+      "usage": "!evo plans"
+    },
+    {
+      "name": "list",
+      "description": "\u5217\u51fa\u6240\u6709 EVO \u5b9e\u4f8b",
+      "usage": "!evo list"
+    },
+    {
+      "name": "deploy",
+      "description": "\u90e8\u7f72\u65b0\u7684 EVO \u5b9e\u4f8b",
+      "usage": "!evo deploy <plan_id> <os_id> <hours>"
+    },
+    {
+      "name": "state",
+      "description": "\u83b7\u53d6\u5b9e\u4f8b\u72b6\u6001",
+      "usage": "!evo state <instance_id>"
+    },
+    {
+      "name": "delete",
+      "description": "\u5220\u9664\u5b9e\u4f8b",
+      "usage": "!evo delete <instance_id>"
+    },
+    {
+      "name": "power",
+      "description": "\u7535\u6e90\u64cd\u4f5c (boot/shutdown/restart/poweroff)",
+      "usage": "!evo power <instance_id> <action>"
+    },
+    {
+      "name": "renew",
+      "description": "\u7eed\u8d39\u5b9e\u4f8b",
+      "usage": "!evo renew <instance_id> <hours>"
+    }
+  ]
+}
